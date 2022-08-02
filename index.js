@@ -51,7 +51,6 @@ async function run() {
         },
         { upsert: true }
       );
-
       res.send(result);
     });
   } finally {
