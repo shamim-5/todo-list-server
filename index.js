@@ -23,8 +23,14 @@ async function run() {
 
     const todoCollection = client.db("todo_list").collection("list");
 
-    app.get("/get", async (req, res) => {
+    app.get("/", async (req, res) => {
       const result = await todoCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.post("/add", async (req, res) => {
+      const query = req.body;
+      const result = await todoCollection.insertOne(query);
       res.send(result);
     });
   } finally {
@@ -33,10 +39,6 @@ async function run() {
 }
 
 run().catch(console.dir);
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
