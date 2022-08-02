@@ -33,6 +33,27 @@ async function run() {
       const result = await todoCollection.insertOne(query);
       res.send(result);
     });
+
+    app.delete("/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await todoCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.put("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = req.body;
+      const result = await todoCollection.updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: query,
+        },
+        { upsert: true }
+      );
+
+      res.send(result);
+    });
   } finally {
     // await client.close();
   }
