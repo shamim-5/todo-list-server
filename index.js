@@ -41,7 +41,19 @@ async function run() {
       res.send(result);
     });
 
-    app.put("/update/:id", async (req, res) => {
+    app.patch("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = req.body;
+      const result = await todoCollection.updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: query,
+        }
+      );
+      res.send(result);
+    });
+
+    app.put("/completed/:id", async (req, res) => {
       const id = req.params.id;
       const query = req.body;
       const result = await todoCollection.updateOne(
@@ -54,7 +66,6 @@ async function run() {
       res.send(result);
     });
   } finally {
-    // await client.close();
   }
 }
 
